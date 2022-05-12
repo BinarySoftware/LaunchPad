@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import AVFoundation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, AVAudioPlayerDelegate {
+    
+    var audioPlayers: [AVAudioPlayer] = []
     
     private let contentView: UIView = {
         let view = UIView()
@@ -20,12 +23,13 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        for _ in 0..<16 { audioPlayers.append(AVAudioPlayer()) }
 
         view.backgroundColor = .systemBackground
         view.addSubview(contentView)
         
         setupAutoLayout()
-        
         drawLaunchpadButtons()
     }
     
@@ -93,9 +97,19 @@ class ViewController: UIViewController {
         sender.setImage(img, for: .normal)
         sender.backgroundColor = btnColor
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            sender.setImage(originalImg, for: .normal)
-            sender.backgroundColor = originalBg
+        let soundURL = Bundle.main.url(forResource: "\(sender.tag)", withExtension: "wav")
+        do {
+            audioPlayers[sender.tag] = try AVAudioPlayer(contentsOf: soundURL!)
+            audioPlayers[sender.tag].play()
+            let audioAsset = AVURLAsset.init(url: soundURL!, options: nil)
+            let duration = audioAsset.duration
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + duration.seconds) {
+                sender.setImage(originalImg, for: .normal)
+                sender.backgroundColor = originalBg
+            }
+        } catch {
+            print("Error locating sound file: \(error)")
         }
     }
 
