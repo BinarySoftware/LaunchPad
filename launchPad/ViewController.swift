@@ -25,6 +25,16 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    /// The header stating "LaunchPad". Nothing fancy here.
+    private let header: UILabel = {
+            let label = UILabel()
+            label.text = "LaunchPad"
+            label.textColor = .black
+            label.font = UIFont.boldSystemFont(ofSize: 42)
+            label.translatesAutoresizingMaskIntoConstraints = false
+            return label
+        }()
 
     /// Happens right after view had ended loading. It prepares the audio players and all the views.
     override func viewDidLoad() {
@@ -33,6 +43,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         for _ in 0..<16 { audioPlayers.append(AVAudioPlayer()) }
 
         view.backgroundColor = .systemBackground
+        view.addSubview(header)
         view.addSubview(contentView)
         
         setupAutoLayout()
@@ -41,9 +52,13 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     
     /// Makes the `ContentView` look good.
     func setupAutoLayout() {
+        header.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        header.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
+        header.topAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
+        
         contentView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
         contentView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
-        contentView.topAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
+        contentView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
         contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
     }
 
@@ -53,7 +68,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         let btnsOnX        = 4
         let btnsOnY        = 4
         let btnSizeX       = (Int(view.frame.width-40) - (offset * (btnsOnX + 1))) / btnsOnX
-        let btnSizeY       = (Int(view.frame.height-(view.safeAreaInsets.top+60)) - (offset * (btnsOnY + 1))) / btnsOnY
+        let btnSizeY       = (Int(view.frame.height-(view.safeAreaInsets.top+120)) - (offset * (btnsOnY + 1))) / btnsOnY
         var xRow           = 0
         var xPosMultiplier = 0
         
