@@ -14,7 +14,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     
     private let contentView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1.0)
+        view.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 0.9)
         view.layer.cornerRadius = 24
         view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -109,7 +109,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
                 sender.backgroundColor = originalBg
             }
         } catch {
-            print("Error locating sound file: \(error)")
+            print("Cant load file: \(error)")
         }
     }
 
